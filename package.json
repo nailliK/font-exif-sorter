@@ -1,0 +1,41 @@
+{
+	"name": "font-exif-sorter",
+	"version": "1.0.0",
+	"repository": "git@github.com:nailliK/font-exif-sorter.git",
+	"author": "Killian Grant <killian@killiangrant.com>",
+	"license": "MIT",
+	"private": false,
+	"devDependencies": {
+		"@types/clear": "^0.1.2",
+		"@types/exif": "^0.6.3",
+		"@types/node": "^20.6.4",
+		"@typescript-eslint/eslint-plugin": "^6.7.2",
+		"@typescript-eslint/parser": "^6.7.2",
+		"eslint": "^8.50.0",
+		"ts-node": "^10.9.1",
+		"tsx": "^3.13.0",
+		"typescript": "^5.2.2"
+	},
+	"scripts": {
+		"dev": "tsx watch src/index.ts",
+		"build": "tsc -p .",
+		"clean": "rimraf build",
+		"prebuild": "yarn clean",
+		"lint": "eslint ./src --ext .ts --fix"
+	},
+	"dependencies": {
+		"@enviro/metadata": "^1.5.1",
+		"chalk": "^5.3.0",
+		"clear": "^0.1.0",
+		"exif": "^0.6.0",
+		"exifreader": "^4.13.0",
+		"exiftool-vendored": "^23.0.0",
+		"file-metadata": "^3.0.0",
+		"uuid": "^9.0.1"
+	},
+	"bin": {
+		"font-exif-sorter": "./dist/index.js"
+	},
+	"type": "module",
+	"module": "ES2022"
+}
