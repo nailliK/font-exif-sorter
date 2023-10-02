@@ -3,17 +3,16 @@
 		"rootDir": "src",
 		"outDir": "dist",
 		"strict": true,
-		"module": "ES2022",
-		"target": "ES2022",
+		"module": "ESNext",
+		"target": "ESNext",
 		"sourceMap": true,
 		"esModuleInterop": true,
 		"moduleResolution": "node",
-		"allowJs": true
+		"allowJs": true,
 	},
 	"ts-node": {
 		"transpileOnly": true,
 		"files": true,
-		// Tell ts-node CLI to install the --loader automatically, explained below
 		"esm": true,
 		"compilerOptions": {
 			"module": "ESNext"
