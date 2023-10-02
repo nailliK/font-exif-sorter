@@ -1,21 +1,21 @@
 {
 	"compilerOptions": {
-		"rootDir": "src",
-		"outDir": "dist",
-		"strict": true,
-		"module": "ESNext",
-		"target": "ESNext",
-		"sourceMap": true,
-		"esModuleInterop": true,
-		"moduleResolution": "node",
 		"allowJs": true,
+		"esModuleInterop": true,
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"outDir": "dist",
+		"rootDir": "src",
+		"sourceMap": true,
+		"strict": true,
+		"target": "ESNext"
 	},
 	"ts-node": {
-		"transpileOnly": true,
-		"files": true,
-		"esm": true,
 		"compilerOptions": {
 			"module": "ESNext"
-		}
+		},
+		"esm": true,
+		"files": true,
+		"transpileOnly": true
 	}
 }

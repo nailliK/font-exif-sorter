@@ -4,27 +4,36 @@ import { exiftool, Tags } from 'exiftool-vendored'
 
 interface CustomTags extends Tags {
 	'Copyright-en-US'?: string
-	'FontFamily-en-US'?: string,
-	'FontSubfamily-en-US'?: string,
-	'FontSubfamilyID-en-US'?: string,
-	'FontName-en-US'?: string,
-	'NameTableVersion-en-US'?: string,
-	'PostScriptFontName-en-US'?: string,
-	'Manufacturer-en-US'?: string,
-	'Manufacturer'?: string,
-	'Designer-en-US'?: string,
-	'Description-en-US'?: string,
-	'VendorURL-en-US'?: string,
-	'License-en-US'?: string,
-	'LicenseInfoURL-en-US'?: string,
-	'PreferredFamily-en-US'?: string,
-	'PreferredSubfamily-en-US'?: string,
-	'FontFamily'?: string,
+	'FontFamily-en-US'?: string
+	'FontSubfamily-en-US'?: string
+	'FontSubfamilyID-en-US'?: string
+	'FontName-en-US'?: string
+	'NameTableVersion-en-US'?: string
+	'PostScriptFontName-en-US'?: string
+	'Manufacturer-en-US'?: string
+	Manufacturer?: string
+	'Designer-en-US'?: string
+	'Description-en-US'?: string
+	'VendorURL-en-US'?: string
+	'License-en-US'?: string
+	'LicenseInfoURL-en-US'?: string
+	'PreferredFamily-en-US'?: string
+	'PreferredSubfamily-en-US'?: string
+	FontFamily?: string
 }
 
 const inputDir = process.argv[process.argv.length - 1]
 
-const ignoreList = ['.DS_Store', 'Thumbs.db', '.syncinfo', '.git', '.idea', '.vscode', 'node_modules', '_CONVERTED_']
+const ignoreList = [
+	'.DS_Store',
+	'Thumbs.db',
+	'.syncinfo',
+	'.git',
+	'.idea',
+	'.vscode',
+	'node_modules',
+	'_CONVERTED_',
+]
 
 const isIgnored = (str: string) => {
 	for (const i of ignoreList) {
@@ -36,7 +45,10 @@ const isIgnored = (str: string) => {
 	return false
 }
 
-const recursiveFileSearch = async (dir: string, results: string[]): Promise<string[]> => {
+const recursiveFileSearch = async (
+	dir: string,
+	results: string[]
+): Promise<string[]> => {
 	if (!isIgnored(dir)) {
 		const files = await fs.promises.readdir(dir)
 		const filePromises = files.map(async (file) => {
@@ -58,9 +70,8 @@ const recursiveFileSearch = async (dir: string, results: string[]): Promise<stri
 
 const init = async () => {
 	clear()
-//
+
 	const files = await recursiveFileSearch(inputDir, [])
-	console.log(files.length)
 
 	const filePromises = files.map(async (file) => {
 		const exif: CustomTags = await exiftool.read(file)
@@ -68,20 +79,29 @@ const init = async () => {
 		const fileLocation = file.replace(`${inputDir}/`, '').split('/') || []
 
 		const extension = exif['FileTypeExtension']
-		const manufacturer = (exif['Manufacturer'] || exif['Manufacturer-en-US'] || fileLocation[0]).replace(/https?:\/\//g, '')
-		const fontFamily = exif['FontFamily'] || exif['FontFamily-en-US'] || fileLocation[1]
-		const fontName = exif['FontName'] || exif['FontName-en-US'] || fileLocation[2].replace(`.${extension}`, '')
+		const manufacturer = (
+			exif['Manufacturer'] ||
+			exif['Manufacturer-en-US'] ||
+			fileLocation[0]
+		).replace(/https?:\/\//g, '')
+		const fontFamily =
+			exif['FontFamily'] || exif['FontFamily-en-US'] || fileLocation[1]
+		const fontName =
+			exif['FontName'] ||
+			exif['FontName-en-US'] ||
+			fileLocation[2].replace(`.${extension}`, '')
 
 		const fileDir = `${inputDir}/_CONVERTED_/${manufacturer}/${fontFamily}`
 		const fileName = `${fileDir}/${fontName}.${extension}`
 		fs.mkdirSync(fileDir, { recursive: true })
 		fs.copyFileSync(file, fileName)
 
-		console.log(file, fileName)
+		console.log(`copied ${file} to ${fileName}`)
 	})
 	await Promise.all(filePromises)
 
 	console.log('done')
-	exiftool.end()
+	await exiftool.end()
+	process.exit(0)
 }
-init()
+await init()

@@ -1,0 +1,10 @@
+{
+	"arrowParens": "always",
+	"endOfLine": "lf",
+	"jsonRecursiveSort": true,
+	"plugins": ["prettier-plugin-sort-json"],
+	"semi": false,
+	"singleAttributePerLine": true,
+	"singleQuote": true,
+	"trailingComma": "es5"
+}
